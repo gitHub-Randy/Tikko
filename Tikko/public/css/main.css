@@ -1,0 +1,45 @@
+.content{
+    display: flex;
+    justify-content: center;
+}
+.bankView{
+    margin-top: 1%;
+}
+#addNewAccount{
+    width: fit-content;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    border-color: green;
+    border-radius: 50%;
+}
+.head{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.accounts{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90vw;
+}
+
+#cards{
+    margin: 10px;
+}
+
+
+h2{
+    margin-left: 10px;
+
+}
+
+#plusButton{
+    font-size: 48px;
+    color: green;
+}
+
+
+
+
