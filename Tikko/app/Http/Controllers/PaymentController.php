@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Group;
-use App\GroupMember;
 use App\Note;
 use App\Payment;
 use App\Tikko;
-use App\User;
-use danielme85\CConverter\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Laravel\Facades\Mollie;

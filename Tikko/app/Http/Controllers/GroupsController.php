@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\BankAccount;
 use App\Group;
 use App\GroupMember;
-use App\Tikko;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 class GroupsController extends Controller
 {
