@@ -56,15 +56,19 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </form>
+
+                    <div>
+                        {{ __('Change the language') }}
+                        <br/>
+                        @if (App::isLocale('en'))
+                            <button><a class="dropdown-item" href="lang/nl" id="ge">Nederlands</a></button>
+                        @else
+                            <button><a class="dropdown-item" href="lang/en" id="en">English</a></button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

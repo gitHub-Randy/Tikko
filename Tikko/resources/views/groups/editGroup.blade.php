@@ -1,26 +1,25 @@
 @extends('layouts.app')
 @section('content')
     <div class="bankView">
-        <h2>{{ __('bank.title') }}</h2>
+        <h2>{{ __('Edit group') }}</h2>
         <button type="button" class="btn-success" onclick="window.location='{{ url("/bankaccounts") }}'">{{ __('Back') }}</button>
         <form action="{{ route('groups.update',$group->id) }}" method="post">
             @method('PATCH')
             @csrf
-            <label for="groupName">Group Name </label>
+            <label for="groupName">{{__('Group name')}} </label>
             <input id="groupName" type="text" class="form-control" name="groupName" value={{$group->name}} />
 
-            <label for="groupSelect">select receivers: </label>
+            <label for="groupSelect">{{__('Select group members')}}: </label>
             <select multiple class="form-control" id="groupSelect"   >
                 @foreach($users as $user)
                     <option id="{{"selection_$user->name"}}">{{$user->name}}</option>
                 @endforeach
             </select>
-            <button type="button" onclick="populateSelectedList()" class="btn-primary">Add to groupList</button>
-            <button type="button" onclick="populateUnSelectedList()" class="btn-primary">delete from GroupList</button>
-
+            <button type="button" onclick="populateSelectedList()" class="btn-primary">{{__('Add to group')}}</button>
+            <button type="button" onclick="populateUnSelectedList()" class="btn-primary">{{__('Delete from group')}}</button>
 
             <br>
-            <label for="groupList">selected Users: </label>
+            <label for="groupList">{{__('Group members')}}</label>
                 <ul  id="groupList" >
                 @for($i = 0; $i<count($groupMembers);$i++)
                     @if($groupMembers[$i]->user_id == $users[$i]->id)
@@ -31,7 +30,7 @@
                         @endif
                 @endfor
             </ul>
-            <button type="submit" class="btn btn-primary" name="submit" value="{{$group->id}}">{{ __('Make Group') }}</button>
+            <button type="submit" class="btn btn-primary" name="submit" value="{{$group->id}}">{{ __('Edit') }}</button>
         </form>
 
 

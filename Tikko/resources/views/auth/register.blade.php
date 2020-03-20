@@ -69,6 +69,15 @@
                             </div>
                         </div>
                     </form>
+                    <div>
+                        {{ __('Change the language') }}
+                        <br/>
+                        @if (App::isLocale('en'))
+                            <button><a class="dropdown-item" href="lang/nl" id="ge">Nederlands</a></button>
+                        @else
+                            <button><a class="dropdown-item" href="lang/en" id="en">English</a></button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

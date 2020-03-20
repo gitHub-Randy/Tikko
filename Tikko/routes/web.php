@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->middleware('auth');
+
+Route::get('lang/{locale}', 'LocalizationController@index');
 Route::resource('bankaccounts', 'BankAccountController')->middleware('auth');
 Route::resource('tikkos', 'TikkoController')->middleware('auth');
 Route::post('/tikkos/confirm', 'TikkoController@confirm')->middleware('auth')->name('confirm');
