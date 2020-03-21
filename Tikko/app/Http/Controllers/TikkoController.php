@@ -19,6 +19,14 @@ class TikkoController extends Controller
 
         $id = Auth::id();
         $tikkos = Tikko::where('user_id', $id)->orderBy('tikko_date', 'DESC')->get();
+        foreach ($tikkos as $t){
+            if(app()->getLocale() == 'nl'){
+                $t->amount =  number_format( $t->amount, 2, ',', '.');
+            }else{
+                $t->amount = number_format( $t->amount, 2, '.', ',');
+            }
+        }
+
         return view('Tikkos.tikkos',compact('tikkos'));
 
     }
@@ -36,7 +44,13 @@ class TikkoController extends Controller
 
     public function confirm(Request $request){
         $receiverCategory = null;
+        if(app()->getLocale() == 'nl'){
+            $request->amount =  number_format( $request->amount, 2, ',', '.');
+        }else{
+            $request->amount = number_format( $request->amount, 2, '.', ',');
+        }
       if($request->submit == 'TikkoOne'){
+
           $receivers = User::all();
           $receiverCategory = "person";
         return view('tikkos.confirmTikko', compact('request','receivers', 'receiverCategory'));
@@ -145,6 +159,11 @@ class TikkoController extends Controller
     {
         $user = Auth::id();
         $tikko = Tikko::where('id', '=', $id)->first();
+        if(app()->getLocale() == 'nl'){
+            $tikko->amount =  number_format( $tikko->amount, 2, ',', '.');
+        }else{
+            $tikko->amount = number_format( $tikko->amount, 2, '.', ',');
+        }
         $bankAccount = BankAccount::where('account_id','=',$tikko->account_id)->first();
         $bankAccount->account_number = Crypt::decrypt($bankAccount->account_number);
         $payments = Payment::where('tikko_id', '=', $tikko->id)->get();

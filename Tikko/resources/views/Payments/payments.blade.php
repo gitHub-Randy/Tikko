@@ -21,15 +21,11 @@
                     <td>{{$t->t_curr}}</td>
                     <td>{{$t->t_date}}</td>
                     <td>{{$t->t_desc}}</td>
-
-
                     <td>{{$t->u_name}}</td>
-
                     <td> <form action="{{ route('pay',"data" )}}" method="post">
                             @csrf
                             <input type="hidden" name="t_id" id="t_id" value={{$t->t_id}}>
                             <input type="hidden" name="t_name" id="t_name" value={{$t->t_name}}>
-
                             <input type="hidden" name="t_desc" id="t_desc" value={{$t->t_desc}}>
                             <input type="hidden" name="t_curr" id="t_curr" value={{$t->t_curr}}>
                             <input type="hidden" name="t_amount" id="t_amount" value={{$t->t_amount}}>

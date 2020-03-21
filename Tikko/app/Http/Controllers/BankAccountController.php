@@ -7,6 +7,7 @@ use App\Tikko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use NumberFormatter;
 
 class BankAccountController extends Controller
 {
@@ -16,9 +17,14 @@ class BankAccountController extends Controller
         $account = BankAccount::select('account_id')->where('user_id', $userId)->get();
         $BankAccount = BankAccount::findmany($account)->where('user_id', '=', $userId);
 
+
         foreach ($BankAccount as $b) {
             $b->account_number = Crypt::decrypt($b->account_number);
-
+            if(app()->getLocale() == 'nl'){
+               $b->balance =  number_format($b->balance, 2, ',', '.');
+            }else{
+                $b->balance = number_format($b->balance, 2, '.', ',');
+            }
         }
 
         $acc = json_decode($BankAccount);
@@ -80,6 +86,8 @@ class BankAccountController extends Controller
     public function show($id)
     {
         $acc = BankAccount::where('account_id', $id)->first();
+
+
         $tikkos = Tikko::select('tikkos.id AS tikko_id', 'tikkos.name AS tikko_name', 'tikkos.currency AS tikko_currency', 'users.name AS user_name', 'payments.tikko_id AS payment_tikkoId', 'payments.payer_id AS payment_payerId', 'payments.payed AS isPayed', 'tikkos.amount AS amount', 'payments.updated_at AS date', 'note.note AS note')
         ->where('tikkos.account_id', $acc->account_id)
         ->join('payments', 'tikkos.id','payments.tikko_id' )
@@ -88,6 +96,20 @@ class BankAccountController extends Controller
             ->where('tikkos.account_id', $acc->account_id)
             ->where('payments.payed', 1)
            ->get();
+        if(app()->getLocale() == 'nl'){
+            $acc->balance =  number_format($acc->balance, 2, ',', '.');
+            foreach ($tikkos as $t){
+                $t->amount =  number_format($t->amount, 2, ',', '.');
+
+            }
+        }else{
+            $acc->balance = number_format($acc->balance, 2, '.', ',');
+            foreach ($tikkos as $t){
+                $t->amount =  number_format($t->amount, 2, '.', ',');
+
+            }
+        }
+
         return view('bankAccount.viewBankAccount', compact('tikkos', 'acc'));
     }
 

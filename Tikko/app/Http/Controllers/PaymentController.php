@@ -24,6 +24,13 @@ class PaymentController extends Controller
             ->where('payments.payer_id', $user_id)
             ->where('payments.payed', 0)
             ->get();
+        foreach ($tikkos as $t){
+            if(app()->getLocale() == 'nl'){
+                $t->t_amount =  number_format( $t->t_amount, 2, ',', '.');
+            }else{
+                $t->t_amount = number_format( $t->t_amount, 2, '.', ',');
+            }
+        }
 
 
         return view('Payments.payments',compact('tikkos'));
@@ -32,6 +39,7 @@ class PaymentController extends Controller
 
     public function pay(Request $request){
         $tikko_data = $request;
+
         return view('Payments.preparePayment', compact('tikko_data'));
 
 
@@ -40,6 +48,13 @@ class PaymentController extends Controller
 // TODO: dynamic curency
     public function prepare(Request $request){
         $mollie = new MollieApiClient();
+        $request->amount = number_format( (float)$request->amount, 2, '.', ',');
+        $localString = "";
+        if(app()->getLocale() == 'nl'){
+            $localString = "nl_NL";
+        }else{
+            $localString = "en_US";
+        }
         try {
             $mollie->setApiKey("test_DyhVSrAnyxUJa96yPU7nvrxWTSS3WE");
         } catch (ApiException $e) {
@@ -53,6 +68,7 @@ class PaymentController extends Controller
                 "description" => $request->description,
                 "redirectUrl" => route('tikkos.index'),
                 "webhookUrl" => route('webhook'),
+                "locale" => $localString,
                 "metadata" => [
                     "user"=>Auth::id(),
                     "tikko_id" => $request->tikkoId,
