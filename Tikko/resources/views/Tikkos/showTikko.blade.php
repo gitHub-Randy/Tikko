@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="bankView">
-        <h2>{{ __('bank.title') }}</h2>
+        <h2>{{ __('Details') }}</h2>
         <button type="button" class="btn-success" onclick="window.location='{{ url("/bankaccounts") }}'">{{ __('Back') }}</button>
             <div class="card">
                 <label for="title">{{ __('Title') }}</label>
@@ -24,11 +24,11 @@
 
                     @foreach($payers as $payer)
                         <div>
-                            <label for="payerName">{{ __('PayerName') }}</label>
+                            <label for="payerName">{{ __('Payer Name') }}</label>
                             <input id="payerName" name="payerName" value="{{$payer->name}}" readonly>
                             @foreach($payments as $p)
                                 @if($p->payer_id == $payer->id)
-                                    <label for="payed">{{ __('hasPayed') }}</label>
+                                    <label for="payed">{{ __('Has Payed') }}</label>
                                     <input id="payed" name="payed" value="{{$p->payed}}" readonly>
                                 @endif
                             @endforeach

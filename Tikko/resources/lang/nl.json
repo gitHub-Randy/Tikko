@@ -41,8 +41,11 @@
     "Pay Tikko" : "Betaal Tikko",
     "Payment from" : "Betaling van",
     "Pay" : "Betalen",
+    "Payer Name" : "Naam betalende",
+    "Has Payed" : "Heeft betaald",
     "Description" : "Beschrijving",
 
+    "Use a different Currency" : "Gebruik een andere valuta",
     "Euro" : "Euro",
     "British Pound": "Britse Pond",
     "United States Dollar": "Verenigde Staten Dollar",

@@ -25,7 +25,7 @@
             </div>
 
 
-            <label for="valuta">{{ __('Use a diffren Currency') }}</label>
+            <label for="valuta">{{ __('Use a different Currency') }}</label>
             <select class="form-control" name="valuta">
                 <option value="EUR" selected>{{ __('Euro') }}</option>
                 <option value="GBP">{{ __('Britisch Pound') }}</option>
