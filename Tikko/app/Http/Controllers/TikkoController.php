@@ -29,25 +29,13 @@ class TikkoController extends Controller
         foreach ($tikkos as $t){
             if(app()->getLocale() == 'nl'){
                 $t->amount =  number_format( $t->amount, 2, ',', '.');
-                $t->tikko_date = date("d-m-Y", strtotime($t->tikko_date));
+                $t->tikko_date = date("d-m-Y", strtotime($t->date));
 
             }else{
                 $t->amount = number_format( $t->amount, 2, '.', ',');
-                $t->tikko_date = date("m/d/Y", strtotime($t->tikko_date));
+                $t->tikko_date = date("m/d/Y", strtotime($t->date));
 
             }
-
-//        $tikkos = Tikko::where('user_id', $id)->orderBy('tikko_date', 'DESC')->get();
-//        foreach ($tikkos as $t){
-//            if(app()->getLocale() == 'nl'){
-//                $t->amount =  number_format( $t->amount, 2, ',', '.');
-//                $t->tikko_date = date("d-m-Y", strtotime($t->tikko_date));
-//
-//            }else{
-//                $t->amount = number_format( $t->amount, 2, '.', ',');
-//                $t->tikko_date = date("m/d/Y", strtotime($t->tikko_date));
-//
-//            }
         }
         return view('Tikkos.tikkos',compact('tikkos'));
 
