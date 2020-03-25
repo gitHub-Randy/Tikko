@@ -47,7 +47,7 @@ class GroupsController extends Controller
                 $groupMember->save();
             }
         }
-        return $this->index();
+        return redirect()->action('GroupsController@index');
     }
 
     public function edit($id)
@@ -86,7 +86,7 @@ class GroupsController extends Controller
             }
         }
 
-        return $this->index();
+        return redirect()->action('GroupsController@index');
     }
 
 

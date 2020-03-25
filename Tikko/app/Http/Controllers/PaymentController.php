@@ -27,8 +27,12 @@ class PaymentController extends Controller
         foreach ($tikkos as $t){
             if(app()->getLocale() == 'nl'){
                 $t->t_amount =  number_format( $t->t_amount, 2, ',', '.');
+                $t->t_date = date("d-m-Y", strtotime($t->t_date));
+
             }else{
                 $t->t_amount = number_format( $t->t_amount, 2, '.', ',');
+                $t->t_date = date("m/d/Y", strtotime($t->t_date));
+
             }
         }
 
@@ -49,12 +53,31 @@ class PaymentController extends Controller
     public function prepare(Request $request){
         $mollie = new MollieApiClient();
         $request->amount = number_format( (float)$request->amount, 2, '.', ',');
+
+
         $localString = "";
         if(app()->getLocale() == 'nl'){
             $localString = "nl_NL";
         }else{
             $localString = "en_US";
         }
+        $swap = (new Builder())
+            ->add('currency_layer', ['access_key' => '6433a802eeb920dda452adb9d7f62e8e', 'enterprise' => false])
+
+            // Use the Fixer.io service as first level provider
+            ->add('fixer', ['access_key' => '2edcb20696ef55624730ce23780be4bf'])
+
+            // Use the currencylayer.com service as first fallback
+
+            ->build();
+        $rateString = "EUR/".$request->valuta;
+        $rate = $swap->latest("$rateString");
+
+        $rateValue  = (float)$rate->getValue();
+        $convertedAmount = $request->amount*$rateValue;
+        $convertedAmount = number_format( (float)$convertedAmount, 2);
+
+
         try {
             $mollie->setApiKey("test_DyhVSrAnyxUJa96yPU7nvrxWTSS3WE");
         } catch (ApiException $e) {
@@ -62,8 +85,8 @@ class PaymentController extends Controller
         try {
             $payment = $mollie->payments->create([
                 "amount" => [
-                    "currency" => $request->currency,
-                    "value" => $request->amount
+                    "currency" => $request->valuta,
+                    "value" => $convertedAmount
                 ],
                 "description" => $request->description,
                 "redirectUrl" => route('tikkos.index'),
@@ -102,15 +125,15 @@ class PaymentController extends Controller
                 $note->note = $payment->metadata->note;
                 $note->save();
                 $swap = (new Builder())
+                    ->add('currency_layer', ['access_key' => '6433a802eeb920dda452adb9d7f62e8e', 'enterprise' => false])
 
                     // Use the Fixer.io service as first level provider
                     ->add('fixer', ['access_key' => '2edcb20696ef55624730ce23780be4bf'])
 
                     // Use the currencylayer.com service as first fallback
-                    ->add('currency_layer', ['access_key' => '6433a802eeb920dda452adb9d7f62e8e', 'enterprise' => false])
 
                     ->build();
-                $rateString = $payment->amount->currency."/EUR";
+                $rateString = "EUR/".$payment->amount->currency;
                 $rate = $swap->latest("$rateString");
 
 

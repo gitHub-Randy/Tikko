@@ -21,12 +21,12 @@
         @foreach($tikkos as $t)
             <tr>
                 <th scope="row">{{$t->amount}}</th>
-                <td>{{$t->currency}}</td>
+                <td>{{$t->tikko_currency}}</td>
                 <td>{{$t->tikko_date}}</td>
                 <td>{{$t->description}}</td>
 
-                <td><a href="{{ route('tikkos.show',$t->id)}}" class="btn btn-primary">{{ __('Details') }}</a></td>
-                <td> <form action="{{ route('tikkos.destroy', $t->id)}}" method="post">
+                <td><a href="{{ route('tikkos.show',$t->tikko_id)}}" class="btn btn-primary">{{ __('Details') }}</a></td>
+                <td> <form action="{{ route('tikkos.destroy', $t->tikko_id)}}" method="post">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>

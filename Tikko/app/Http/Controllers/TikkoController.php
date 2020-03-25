@@ -18,15 +18,37 @@ class TikkoController extends Controller
 
 
         $id = Auth::id();
-        $tikkos = Tikko::where('user_id', $id)->orderBy('tikko_date', 'DESC')->get();
+
+        $tikkos = Tikko::select('tikkos.id AS tikko_id', 'tikkos.name AS tikko_name', 'tikkos.currency AS tikko_currency',  'payments.tikko_id AS payment_tikkoId', 'payments.payer_id AS payment_payerId', 'payments.payed AS isPayed', 'tikkos.amount AS amount', 'payments.updated_at AS date')
+            ->where('user_id', $id)
+            ->join('payments', 'tikkos.id','payments.tikko_id' )
+            ->where('payments.payed', 0)
+            ->orderBy('tikko_date', 'DESC')
+            ->get();
+
         foreach ($tikkos as $t){
             if(app()->getLocale() == 'nl'){
                 $t->amount =  number_format( $t->amount, 2, ',', '.');
+                $t->tikko_date = date("d-m-Y", strtotime($t->tikko_date));
+
             }else{
                 $t->amount = number_format( $t->amount, 2, '.', ',');
-            }
-        }
+                $t->tikko_date = date("m/d/Y", strtotime($t->tikko_date));
 
+            }
+
+//        $tikkos = Tikko::where('user_id', $id)->orderBy('tikko_date', 'DESC')->get();
+//        foreach ($tikkos as $t){
+//            if(app()->getLocale() == 'nl'){
+//                $t->amount =  number_format( $t->amount, 2, ',', '.');
+//                $t->tikko_date = date("d-m-Y", strtotime($t->tikko_date));
+//
+//            }else{
+//                $t->amount = number_format( $t->amount, 2, '.', ',');
+//                $t->tikko_date = date("m/d/Y", strtotime($t->tikko_date));
+//
+//            }
+        }
         return view('Tikkos.tikkos',compact('tikkos'));
 
     }
@@ -43,6 +65,25 @@ class TikkoController extends Controller
 
 
     public function confirm(Request $request){
+        if(app()->getLocale() == 'nl'){
+            $validatedData = $request->validate([
+                'date' => 'required|date_format:d-m-Y',
+                'title' => 'required',
+                'amount' => 'required|regex: /^(\d+(?:[\,]\d{2})?)$/',
+                'description' => 'required'
+
+            ]);
+
+        }else{
+            $validatedData = $request->validate([
+                'date' => 'required|date_format:m/d/Y',
+                'title' => 'required',
+                'amount' => 'required|regex: /^(\d+(?:[\.]\d{2})?)$/',
+                'description' => 'required'
+            ]);
+        }
+
+        $request->amount = str_replace(array(".", ","), array(",", "."), $request->amount);
         $receiverCategory = null;
         if(app()->getLocale() == 'nl'){
             $request->amount =  number_format( $request->amount, 2, ',', '.');
@@ -67,7 +108,6 @@ class TikkoController extends Controller
 
     public function store(Request $request)
     {
-
         // get all bankaccounts with the user id of the current user
         // foreach account: decrypt it and compare the account id with the account id from the request and store it
         $accs = BankAccount::where('user_id',Auth::id())->get();
@@ -79,6 +119,8 @@ class TikkoController extends Controller
         }
 
         // make a new tikko and store it in the db
+        $request->amount = str_replace(array(","), array( "."), $request->amount);
+        $request->tikko_date = date("Y-m-d", strtotime($request->tikko_date));
 
         $newTikko = new Tikko(
             [
@@ -149,7 +191,8 @@ class TikkoController extends Controller
                 }
             }
         }
-        return $this->index();
+         return redirect()->action('TikkoController@index');
+
     }
 
 

@@ -14,8 +14,8 @@
     @endif
     <form action="{{ route('confirm') }}" method="post">
         @csrf
-        <label for="title">{{ __('Name') }}</label>
-        <input type="text" class="form-control" name="title" placeholder="Tikko {{ __('Name') }}">
+        <label for="title">{{ __('Title') }}</label>
+        <input type="text" class="form-control" name="title" placeholder="Tikko {{ __('Title') }}">
         <div class="form-group">
             <label for="amount">{{ __('Amount') }}</label>
             <input type="text" class="form-control" name="amount" placeholder="00.00">
@@ -35,6 +35,7 @@
 
         <label for="date">{{ __('Date') }}</label>
         <input class="date form-control" type="text" name="date">
+
         <label for="descriptionLabel">{{ __('Description') }}</label>
 
         <input class="form-control"  type="text"  name="description" >

@@ -22,6 +22,7 @@ class BankAccountController extends Controller
             $b->account_number = Crypt::decrypt($b->account_number);
             if(app()->getLocale() == 'nl'){
                $b->balance =  number_format($b->balance, 2, ',', '.');
+
             }else{
                 $b->balance = number_format($b->balance, 2, '.', ',');
             }
@@ -52,7 +53,7 @@ class BankAccountController extends Controller
             ]
         );
         $acc->save();
-        return $this->index();
+        return redirect()->action('BankAccountController@index');
     }
 
     public function edit($id)
@@ -79,7 +80,7 @@ class BankAccountController extends Controller
 
         $account->save();
 
-        return $this->index();
+        return redirect()->action('BankAccountController@index');
     }
 
 
@@ -100,12 +101,14 @@ class BankAccountController extends Controller
             $acc->balance =  number_format($acc->balance, 2, ',', '.');
             foreach ($tikkos as $t){
                 $t->amount =  number_format($t->amount, 2, ',', '.');
+                $t->date = date("d-m-Y", strtotime($t->date));
 
             }
         }else{
             $acc->balance = number_format($acc->balance, 2, '.', ',');
             foreach ($tikkos as $t){
                 $t->amount =  number_format($t->amount, 2, '.', ',');
+                $t->date = date("m/d/Y", strtotime($t->date));
 
             }
         }
