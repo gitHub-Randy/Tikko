@@ -37,10 +37,6 @@
                 </select>
                 <button type="button" onclick="populateSelectedList()"
                         class="btn-primary">{{ __('Add to receive list') }}</button>
-
-                {{--        <label for="unReceiverSelection">selected Receivers: </label>--}}
-                {{--        <select multiple class="form-control" id="unReceiverSelection" name="receivers"  >--}}
-                {{--        </select>--}}
             </div>
             <div>
                 <label for="unReceiverSelection">{{__('Select to delete')}}</label>

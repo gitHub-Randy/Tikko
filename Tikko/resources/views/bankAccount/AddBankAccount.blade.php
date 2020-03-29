@@ -26,7 +26,6 @@
                         <label for="number">{{ __('Bank number') }}:</label>
                         <input type="text" class="form-control" name="account_number"/>
                     </div>
-
                     <button type="submit" class="btn btn-primary">{{ __('Add') }}</button>
                 </form>
             </div>

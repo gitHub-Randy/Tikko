@@ -25,4 +25,4 @@ Route::resource('groups', 'GroupsController')->middleware('auth');
 Route::resource('payments', 'PaymentController')->middleware('auth');
 Route::post('/payments/pay', 'PaymentController@pay')->middleware('auth')->name('pay');
 Route::post('/payments/prepare', 'PaymentController@prepare')->middleware('auth')->name('prepare');
-Route::post('/webhook', 'PaymentController@MollieHook')->name('webhook');
+Route::post('/webhook', 'PaymentController@mollieHook')->name('webhook');

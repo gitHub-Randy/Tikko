@@ -6,7 +6,6 @@
                 onclick="window.location='{{ url("/bankaccounts") }}'">{{ __('Back') }}</button>
         <form action="{{ route('groups.store') }}" method="post">
             @csrf
-
             <label for="groupName">{{__("Group name")}}</label>
             <input id="groupName" type="text" class="form-control" name="groupName"/>
             <div>
@@ -26,8 +25,6 @@
                 <button type="button" onclick="populateUnSelectedList()"
                         class="btn-primary">{{__('Delete from group')}}</button>
             </div>
-            {{--            <ul  id="groupList" >--}}
-            {{--            </ul>--}}
             <button type="submit" class="btn btn-success float-right" name="submit"
                     value="TikkoOne">{{ __('Make group') }}</button>
         </form>
@@ -67,7 +64,6 @@
             function populateUnSelectedList() {
                 let unReceiverSelection = document.getElementById('groupList').selectedOptions;
                 let unSelection = document.getElementById('groupList');
-                //for each unselected person
                 for (let i = 0; i < unReceiverSelection.length; i++) {
                     unSelection.removeChild(unReceiverSelection[i]);
                 }

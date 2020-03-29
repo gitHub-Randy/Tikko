@@ -33,18 +33,12 @@
                             <input type="hidden" name="p_tId" id="p_tId" value={{$t->p_tId}}>
                             <input type="hidden" name="p_pId" id="p_pId" value={{$t->p_pId}}>
                             <input type="hidden" name="t_date" id="t_date" value={{$t->t_date}}>
-
                             <button class="btn btn-success" type="submit">{{ __('Pay') }}</button>
                         </form>
                     </td>
                 </tr>
-
             @endforeach
-
             </tbody>
         </table>
-
     </div>
-
-
 @endsection

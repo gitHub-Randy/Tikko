@@ -56,9 +56,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('groups.index')}}">{{ __('Groups') }}</a>
                     </li>
-{{--                    <li class="nav-item">--}}
-{{--                        <a class="nav-link active" href="{{ route('tikko.showTikkos')}}">{{ __('Tikkos') }}</a>--}}
-{{--                    </li>--}}
                 </ul>
 
                 <!-- Right Side Of Navbar -->
